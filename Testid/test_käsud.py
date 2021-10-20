@@ -21,6 +21,7 @@ class TestKäsud(unittest.TestCase):
         trC.store(-30)
         instructions.ADD(trA, trB, trC)
         self.assertEqual(trA.value(), -15)
+        print(trA.bin_value)
 
         #Liitmine nulli ja positiivse täisarvuga
         trB.store(15)
@@ -54,6 +55,12 @@ class TestKäsud(unittest.TestCase):
         trB.store(10)
         instructions.ADDI(trA, trB, '%1100100')
         self.assertEqual(trA.value(), 110)
+
+    def test_NAND(self):
+        trB.store(10)
+        trC.store(8)
+        instructions.NAND(trA, trB, trC)
+        self.assertEqual(trA.value(), -32759)
 
 if __name__ == '__main__':
     unittest.main()
