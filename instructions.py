@@ -1,0 +1,1 @@
+#Siia tuleb käskude loogika, kokku 8 käsku

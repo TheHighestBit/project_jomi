@@ -1,0 +1,31 @@
+Git-i on võimalik kasutada ka VS Code-i integreeritult (vasakult toolbarist Source control)
+kui terminali käsud keerulised tunduvad.
+
+Esimest korda projektiga tegeldes tuleb teha paar eelnevat seadistust, selleks järgi
+git-i juhiseid mis terminali ilmuvad.
+
+Üldine git-i workflow peaks välja nägema selline:
+* Projekti githubi lehel tuleks ennem mingi koodijupi kirjutamist teistele teada anda, et sa
+sellega tegeled. Seda saab teha "projects" tab-i alt, kas ise luues uue ticketi, kui
+seda juba pole to do all, ja selle ticketi liigutamisel in progress tabi. Kui kood
+valmis ja pull request on edukas, siis tuleks vastav ticket ka Done tabi liigutada.
+
+* Kui uue ticketi kallal tööd alustad, tuleks eelnevalt luua projekti uus vastav branch,
+(git checkout -b "ticketi number/kirjeldus"). Siis tuleks projekti kõige värskem versioon
+pullida, käsuga (git pull origin master). Siinkohal võivad tekkida konfliktid, mis tuleb
+ära kõrvaldada (aitab google või kriba slackis). Üldiselt tuleks pullida iga kord, kui 
+mingi branchi kallal töötamist jätkad. See tagab selle, et mitu inimest ei teeks korraga sama asja
+ja branch oleks nii up-to-date kui võimalik. 
+
+* Kui ticket on valmis, ehk kood kirjutatud ja ka testitud, tuleb vastav branch githubi
+üleslaadida. Selleks tuleb kasutada käske (git add .) , (git commit -m "ticketi nr/kirjeldus") ja 
+(git push -u origin branchi_nimi). Peale seda tuleb minna projekti githubi lehele ja luua
+pull request vastavale branchile, ehk anda märku, et antud ticket/kood on valmis ja selle
+võib projekti lisada.
+
+* Kui leiad, et kuskil koodis on sees viga ja sa ei oska seda kohe ise parandada, tuleks
+githubi Issues tabi alla luua uus issue probleemi kirjeldusega, et vastava koodi autor
+saaks probleemist teada ja parandused sisse viia. Issue lahendamisel tuleks jällegi luua 
+uus branch. 
+
+Või lihtsalt kirjuta sellele inimesele probleemist otse, ise valid.

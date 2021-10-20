@@ -1,0 +1,1 @@
+#Siia tuleb registrite class

@@ -1,0 +1,2 @@
+Project Jomi
+RiSC-16 arhitektuuri implementeerimine Pythonis
