@@ -22,5 +22,17 @@ class TestStringMethods(unittest.TestCase):
         instructions.ADD(trA, trB, trC)
         self.assertEqual(trA.value(), -15)
 
+        #Liitmine nulli ja positiivse täisarvuga
+        trB.store(15)
+        trC.store(0)
+        instructions.ADD(trA, trB, trC)
+        self.assertEqual(trA.value(), 15)
+
+        #Liitmine nulliga ja negatiivse täisarvuga
+        trB.store(-15)
+        trC.store(0)
+        instructions.ADD(trA, trB, trC)
+        self.assertEqual(trA.value(), -15)
+
 if __name__ == '__main__':
     unittest.main()
