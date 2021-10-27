@@ -1,4 +1,6 @@
 #Siia tuleb käskude loogika, kokku 8 käsku
+import config
+config.init() #See tuleb kindlasti maini liigutada, hetkel on ta aga testimiseks vajalik
 
 def nand_abi(bit1, bit2): #Funktsioon, mis tagastab NAND tulemuse nende kahe biti vahel
     return '0' if bit1 == '1' and bit2 == '1' else '1'
@@ -55,3 +57,8 @@ def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits 
         else:
             imm_in_bin = imm_in_bin[-10:]
             rA.bin_value = '0b00000' + imm_in_bin
+
+def SW(rA, rB, imm):#Store value from regA into memory. Memory address is formed by adding imm with contents of regB.
+    address = rB.value() + decode_imm(imm)
+    
+    config.mälu.store(rA.value(), address)

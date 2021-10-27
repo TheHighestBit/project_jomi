@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 
 import unittest
-import instructions, registers
+import instructions, registers, config
 
 trA = registers.Register()
 trB = registers.Register()
@@ -73,6 +73,14 @@ class TestKäsud(unittest.TestCase):
 
         instructions.LUI(trA, '$ABC')
         self.assertEqual(trA.bin_value, '0b000001010111100')
+
+    def test_SW(self):
+        trB.store(10)
+        trA.store(-5)
+
+        instructions.SW(trA, trB, '#5')
+        self.assertEqual(trA.bin_value, config.mälu.load(15))
+        self.assertEqual(config.mälu.load(65535), '0b' + '0' * 15)
 
 if __name__ == '__main__':
     unittest.main()
