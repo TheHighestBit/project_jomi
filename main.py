@@ -13,7 +13,7 @@ register_map = {
     'R4': config.r4,
     'R5': config.r5,
     'R6': config.r6,
-    'R7': config.r7   
+    'R7': config.r7
 }
 
 if len(sys.argv) > 1:
@@ -24,7 +24,7 @@ else:
 with open(failinimi, 'r') as f:
     käsud = f.read().splitlines()
 
-käsud = [käsk[:käsk.index(' //')] for käsk in käsud] #Eemaldame kommentaarid
+käsud = [käsk[:käsk.index(' //')] if '//' in käsk else käsk for käsk in käsud] #Eemaldame kommentaarid
 
 while config.pc < len(käsud): #Programm jookseb seni, kuni käsud otsa saavad
     käsk = käsud[config.pc].split(' ')
@@ -45,5 +45,11 @@ while config.pc < len(käsud): #Programm jookseb seni, kuni käsud otsa saavad
         instructions.BEQ(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')], käsk[3])
     elif käsk[0] == 'JALR':
         instructions.JALR(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')])
+    elif käsk[0] == 'PRINT': #Kuvab ekraanile registri sisu ASCII märgina
+        print(chr(register_map[käsk[1]].value()), end='')
+        config.pc += 1
+    elif käsk[0] == 'PRINTB': #Prindib registri sisu kahendkoodis
+        print(register_map[käsk[1]].bin_value)
+        config.pc += 1
     else:
         raise Exception("Ebakorrektne käsk!")

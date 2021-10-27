@@ -1,4 +1,5 @@
 ADDI R1, R0, #10 //Registris R1 peaks nüüd olema 10
-ADDI R2, R0, #30 //Registris R2 peaks nüüd olema 30
+ADDI R2, R0, #104 //Registris R2 peaks nüüd olema 30
 LUI R3, #500 //Registris R3 peaks nüüd olema arv 32000
 ADD R4, R1, R2 //Registris R4 peaks nüüd olema arv 40
+PRINT R2 //Konsooli peaks tekkima tähemärk 'h'
