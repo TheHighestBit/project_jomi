@@ -13,7 +13,8 @@ def init():
     global r6
     global r7
     global mälu
-    
+    global pc #program counter, lihtsalt tavaline int
+
     r0 = '0b000000000000000' #Selle registri väärtus on alati null!
     r1 = Register()
     r2 = Register()
@@ -22,5 +23,6 @@ def init():
     r5 = Register()
     r6 = Register()
     r7 = Register()
+    pc = 0
 
     mälu = Memory(65536)

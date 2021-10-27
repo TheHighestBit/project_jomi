@@ -21,9 +21,11 @@ def decode_imm(imm): #tagastab kümnendarvu
 
 def ADD(rA, rB, rC): #Add contents of regB with regC, store result in regA
     rA.store(rB.value() + rC.value())
+    config.pc += 1
 
 def ADDI(rA, rB, imm): #Add contents of regB with imm, store result in regA.
     rA.store(rB.value() + decode_imm(imm))
+    config.pc += 1
 
 def NAND(rA, rB, rC): #Nand contents of regB with regC, store results in regA.
         #See käsk on väga kahtlane, kuna NANDis kasutatakse kogu registrit, mitte ainult relevantseid bitte
@@ -38,6 +40,8 @@ def NAND(rA, rB, rC): #Nand contents of regB with regC, store results in regA.
             rA.store(int('-0b' + ''.join([nand_abi(bit1, bit2) for bit1, bit2 in zip(rB.bin_value[2:], rC.bin_value[2:])]), 2))
         else:
             rA.store(int('0b' + ''.join([nand_abi(bit1, bit2) for bit1, bit2 in zip(rB.bin_value[3:], rC.bin_value[3:])]), 2))
+
+        config.pc += 1
 
 def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits of regA, setting the bottom 6 bits of regA to zero.
     #Ülemised bitid on vasakul ja alumised paremal
@@ -58,7 +62,29 @@ def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits 
             imm_in_bin = imm_in_bin[-10:]
             rA.bin_value = '0b00000' + imm_in_bin
 
+    config.pc += 1
+
 def SW(rA, rB, imm):#Store value from regA into memory. Memory address is formed by adding imm with contents of regB.
     address = rB.value() + decode_imm(imm)
     
     config.mälu.store(rA.value(), address)
+    config.pc += 1
+
+def LW(rA, rB, imm): #Load value from memory into regA. Memory address is formed by adding imm with contents of regB.
+    address = rB.value() + decode_imm(imm)
+
+    rA.store(int(config.mälu.memory[address], 2))
+    config.pc += 1
+
+def BEQ(rA, rB, imm): 
+    '''If the contents of regA and regB are the same, branch to the address
+    PC+1+imm, where PC is the address of
+    the beq instruction.'''
+    if rA.value() == rB.value():
+        config.pc += 1 + decode_imm(imm)
+    else:
+        config.pc += 1
+
+def JALR(rA, rB): #Branch to the address in regB. Store PC+1 into regA, where PC is the address of the jalr instruction.
+    rA.store(config.pc + 1)
+    config.pc = rB.value()
