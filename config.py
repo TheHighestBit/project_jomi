@@ -15,7 +15,7 @@ def init():
     global mälu
     global pc #program counter, lihtsalt tavaline int
 
-    r0 = '0b000000000000000' #Selle registri väärtus on alati null!
+    r0 = Register(is_0=True) #Selle registri väärtus on alati null!
     r1 = Register()
     r2 = Register()
     r3 = Register()

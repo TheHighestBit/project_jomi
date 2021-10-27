@@ -63,16 +63,16 @@ class TestKäsud(unittest.TestCase):
 
     def test_LUI(self): #Load upper immidiate
         instructions.LUI(trA, '%110')
-        self.assertEqual(trA.bin_value, '0b' + '0' * 12 + '110')
+        self.assertEqual(trA.bin_value, '0b' + '0' * 6 + '110' + '0' * 6)
 
         instructions.LUI(trA, '%-110')
-        self.assertEqual(trA.bin_value, '-0b' + '0' * 12 + '110')
+        self.assertEqual(trA.bin_value, '-0b' + '0' * 6 + '110' + '0' * 6)
 
         instructions.LUI(trA, '%' + '1' * 13) #testime ületäitmist
-        self.assertEqual(trA.bin_value, '0b' + '0' * 5 + '1' * 10)
+        self.assertEqual(trA.bin_value, '0b' + '1' * 9 + '0' * 6)
 
         instructions.LUI(trA, '$ABC')
-        self.assertEqual(trA.bin_value, '0b000001010111100')
+        self.assertEqual(trA.bin_value, '0b010111100000000')
 
     def test_SW(self): #Save word
         trB.store(10)

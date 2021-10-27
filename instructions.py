@@ -1,6 +1,5 @@
 #Siia tuleb käskude loogika, kokku 8 käsku
 import config
-config.init() #See tuleb kindlasti maini liigutada, hetkel on ta aga testimiseks vajalik
 
 def nand_abi(bit1, bit2): #Funktsioon, mis tagastab NAND tulemuse nende kahe biti vahel
     return '0' if bit1 == '1' and bit2 == '1' else '1'
@@ -48,19 +47,19 @@ def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits 
     imm_in_bin = bin(decode_imm(imm))
 
     if '-' in imm_in_bin:
-        if (len(imm_in_bin) - 3) < 10:
-            imm_in_bin = imm_in_bin[3:].rjust(10, '0')
-            rA.bin_value = '-0b00000' + imm_in_bin
+        if (len(imm_in_bin) - 3) < 9:
+            imm_in_bin = imm_in_bin[3:].rjust(9, '0')
+            rA.bin_value = '-0b' + imm_in_bin + '000000'
         else:
-            imm_in_bin = imm_in_bin[-10:]
-            rA.bin_value = '-0b00000' + imm_in_bin
+            imm_in_bin = imm_in_bin[-9:]
+            rA.bin_value = '-0b' + imm_in_bin + '000000'
     else:
-        if (len(imm_in_bin) - 2) < 10:
-            imm_in_bin = imm_in_bin[2:].rjust(10, '0')
-            rA.bin_value = '0b00000' + imm_in_bin
+        if (len(imm_in_bin) - 2) < 9:
+            imm_in_bin = imm_in_bin[2:].rjust(9, '0')
+            rA.bin_value = '0b' + imm_in_bin + '000000'
         else:
-            imm_in_bin = imm_in_bin[-10:]
-            rA.bin_value = '0b00000' + imm_in_bin
+            imm_in_bin = imm_in_bin[-9:]
+            rA.bin_value = '0b' + imm_in_bin + '000000'
 
     config.pc += 1
 
