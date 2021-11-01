@@ -23,7 +23,13 @@ def ADD(rA, rB, rC): #Add contents of regB with regC, store result in regA
     config.pc += 1
 
 def ADDI(rA, rB, imm): #Add contents of regB with imm, store result in regA.
-    rA.store(rB.value() + decode_imm(imm))
+    decoded_imm = decode_imm(imm)
+    
+    if abs(decoded_imm) > 2 ** 10:
+        print(f"\nWARNING: Arv {decoded_imm} on ADDI käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
+        decoded_imm %= 2 ** 10
+    
+    rA.store(rB.value() + decoded_imm)
     config.pc += 1
 
 def NAND(rA, rB, rC): #Nand contents of regB with regC, store results in regA.
@@ -44,7 +50,14 @@ def NAND(rA, rB, rC): #Nand contents of regB with regC, store results in regA.
 
 def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits of regA, setting the bottom 6 bits of regA to zero.
     #Ülemised bitid on vasakul ja alumised paremal
-    imm_in_bin = bin(decode_imm(imm))
+    decoded_imm = decode_imm(imm)
+    assert decoded_imm >= 0, "LUI käsu sisend peab olema mittenegatiivne!"
+    
+    if decoded_imm > 2 ** 10:
+        imm_in_bin = bin(decode_imm % 2 ** 10)
+        print(f"\nWARNING: Arv {decoded_imm} on LUI käsu jaoks liiga suur (max 2 ** 10) ja registris toimus overflow!")
+    else:
+        imm_in_bin = bin(decoded_imm)
 
     if '-' in imm_in_bin:
         if (len(imm_in_bin) - 3) < 9:
@@ -64,12 +77,24 @@ def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits 
     config.pc += 1
 
 def SW(rA, rB, imm):#Store value from regA into memory. Memory address is formed by adding imm with contents of regB.
+    decoded_imm = decode_imm(imm)
+    
+    if abs(decoded_imm) > 2 ** 10:
+        print(f"\nWARNING: Arv {decoded_imm} on SW käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
+        decoded_imm %= 2 ** 10
+    
     address = rB.value() + decode_imm(imm)
     
     config.mälu.store(rA.value(), address)
     config.pc += 1
 
 def LW(rA, rB, imm): #Load value from memory into regA. Memory address is formed by adding imm with contents of regB.
+    decoded_imm = decode_imm(imm)
+    
+    if abs(decoded_imm) > 2 ** 10:
+        print(f"\nWARNING: Arv {decoded_imm} on LW (rida: {config.pc}) käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
+        decoded_imm %= 2 ** 10
+
     address = rB.value() + decode_imm(imm)
 
     rA.store(int(config.mälu.memory[address], 2))
@@ -79,6 +104,12 @@ def BEQ(rA, rB, imm):
     '''If the contents of regA and regB are the same, branch to the address
     PC+1+imm, where PC is the address of
     the beq instruction.'''
+    decoded_imm = decode_imm(imm)
+    
+    if abs(decoded_imm) > 2 ** 10:
+        print(f"\nWARNING: Arv {decoded_imm} on BEQ (rida: {config.pc}) käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
+        decoded_imm %= 2 ** 10
+    
     if rA.value() == rB.value():
         config.pc += 1 + decode_imm(imm)
     else:
