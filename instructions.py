@@ -1,14 +1,14 @@
 #Siia tuleb käskude loogika, kokku 8 käsku
 import config
 
-def nand_abi(bit1, bit2): #Funktsioon, mis tagastab NAND tulemuse nende kahe biti vahel
+def nand_abi(bit1, bit2): #Funktsioon, mis tagastab NAND tulemuse kahe biti vahel
     return '0' if bit1 == '1' and bit2 == '1' else '1'
 
 def decode_imm(imm): #tagastab kümnendarvu
     #kümnendsüsteem
     if '#' in imm:
         return int(imm[1:])
-    #kuueteistkümnendik süsteem
+    #kuueteistkümnendiksüsteem
     elif '$' in imm:
         return int(imm[1:], 16)
     #kahendiksüsteem
@@ -25,17 +25,14 @@ def ADD(rA, rB, rC): #Add contents of regB with regC, store result in regA
 def ADDI(rA, rB, imm): #Add contents of regB with imm, store result in regA.
     decoded_imm = decode_imm(imm)
     
-    if abs(decoded_imm) > 2 ** 10:
-        print(f"\nWARNING: Arv {decoded_imm} on ADDI käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
-        decoded_imm %= 2 ** 10
+    if abs(decoded_imm) > 2 ** 10 - 1:
+        print(f"\nWARNING: Arv {decoded_imm} on ADDI käsu jaoks liiga suur (max signed 2 ** 10 - 1) ja toimus overflow!")
+        decoded_imm %= 2 ** 10 - 1
     
     rA.store(rB.value() + decoded_imm)
     config.pc += 1
 
 def NAND(rA, rB, rC): #Nand contents of regB with regC, store results in regA.
-        #See käsk on väga kahtlane, kuna NANDis kasutatakse kogu registrit, mitte ainult relevantseid bitte
-        #Pole kindel, kas see töötab õieti
-
         #Peame kontrollima, kas registrites on negatiivsed arvud
         if '-' in rB.bin_value and '-' not in rC.bin_value:
             rA.store(int('-0b' + ''.join([nand_abi(bit1, bit2) for bit1, bit2 in zip(rB.bin_value[3:], rC.bin_value[2:])]), 2))
@@ -48,14 +45,13 @@ def NAND(rA, rB, rC): #Nand contents of regB with regC, store results in regA.
 
         config.pc += 1
 
-def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits of regA, setting the bottom 6 bits of regA to zero.
+def LUI(rA, imm): #Place the top 10 bits of the 16-bit imm into the top 10 bits of regA, setting the bottom 6 bits of regA to zero.
     #Ülemised bitid on vasakul ja alumised paremal
     decoded_imm = decode_imm(imm)
-    assert decoded_imm >= 0, "LUI käsu sisend peab olema mittenegatiivne!"
     
-    if decoded_imm > 2 ** 10:
-        imm_in_bin = bin(decode_imm % 2 ** 10)
-        print(f"\nWARNING: Arv {decoded_imm} on LUI käsu jaoks liiga suur (max 2 ** 10) ja registris toimus overflow!")
+    if decoded_imm > 2 ** 10 - 1:
+        imm_in_bin = bin(decode_imm % (2 ** 10 - 1))
+        print(f"\nWARNING: Arv {decoded_imm} on LUI käsu jaoks liiga suur (max 2 ** 10 - 1) ja toimus overflow!")
     else:
         imm_in_bin = bin(decoded_imm)
 
@@ -79,9 +75,9 @@ def LUI(rA, imm): #Place the 10 ten bits of the 16-bit imm into the 10 ten bits 
 def SW(rA, rB, imm):#Store value from regA into memory. Memory address is formed by adding imm with contents of regB.
     decoded_imm = decode_imm(imm)
     
-    if abs(decoded_imm) > 2 ** 10:
-        print(f"\nWARNING: Arv {decoded_imm} on SW käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
-        decoded_imm %= 2 ** 10
+    if abs(decoded_imm) > 2 ** 10 - 1:
+        print(f"\nWARNING: Arv {decoded_imm} on SW käsu jaoks liiga suur (max signed 2 ** 10) ja toimus overflow!")
+        decoded_imm %= (2 ** 10 - 1)
     
     address = rB.value() + decode_imm(imm)
     
@@ -91,9 +87,9 @@ def SW(rA, rB, imm):#Store value from regA into memory. Memory address is formed
 def LW(rA, rB, imm): #Load value from memory into regA. Memory address is formed by adding imm with contents of regB.
     decoded_imm = decode_imm(imm)
     
-    if abs(decoded_imm) > 2 ** 10:
-        print(f"\nWARNING: Arv {decoded_imm} on LW (rida: {config.pc}) käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
-        decoded_imm %= 2 ** 10
+    if abs(decoded_imm) > 2 ** 10 - 1:
+        print(f"\nWARNING: Arv {decoded_imm} on LW (rida: {config.pc}) käsu jaoks liiga suur (max signed 2 ** 10 - 1) ja toimus overflow!")
+        decoded_imm %= (2 ** 10 - 1)
 
     address = rB.value() + decode_imm(imm)
 
@@ -106,9 +102,9 @@ def BEQ(rA, rB, imm):
     the beq instruction.'''
     decoded_imm = decode_imm(imm)
     
-    if abs(decoded_imm) > 2 ** 10:
-        print(f"\nWARNING: Arv {decoded_imm} on BEQ (rida: {config.pc}) käsu jaoks liiga suur (max signed 2 ** 10) ja registris toimus overflow!")
-        decoded_imm %= 2 ** 10
+    if abs(decoded_imm) > 2 ** 10 - 1:
+        print(f"\nWARNING: Arv {decoded_imm} on BEQ (rida: {config.pc}) käsu jaoks liiga suur (max signed 2 ** 10 - 1) ja toimus overflow!")
+        decoded_imm %= (2 ** 10 - 1)
     
     if rA.value() == rB.value():
         config.pc += 1 + decode_imm(imm)

@@ -1,0 +1,18 @@
+//Käesolev programm demonstreerib kõikide erinevate käskude
+//tööd
+
+ADDI R1, R0, #10 //Salvestab arvu 10 registrisse R1
+ADDI R2, R1, #20 //R2 == 30
+NAND R3, R2, R1 //Kuna NAND operatsioon kasutab kõiki bitte, siis R3 == -0b111111111110101, kuna ka märgi bit NANDitakse
+PRINTB R3 //Kirjutab registri R3 sisu binaarkoodis konsooli
+LUI R4, %101 //R4 == 320. LUI = Load upper immediate
+SW R4, R0, #0 //Salvestab R4 sisu mällu aadressile 0
+LW R5, R0, #0 //Loeb mälust andmed registrisse R5
+PRINTI R5 //Konsooli peaks ilmuma eelnev R4 sisu, ehk 320
+BEQ R0, R0, #1 //Jätab järgneva käsu vahele, kuna R0 == R0. BEQ = Branch if equal
+PRINTB R5 //Seda käsku ei täideta kunagi, kuna toimus hargnemine
+ADDI R6, R0, #17 //Valmistame registri ette JALR käsuks
+JALR R1, R6 //Hargneme aadressile, mis on registris R6 ning salvestame PC väärtuse regisrisse R1
+
+
+PRINT R2 //Peaks konsooli kirjutama kolmnurga märgi, ehk chr(30)

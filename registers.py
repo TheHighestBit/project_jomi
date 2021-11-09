@@ -11,15 +11,16 @@ class Register():
         
         try:
             if abs(value) > 32767: #See on 2 ** 15 - 1, ehk maksimaalne suurus mis sellesse registrisse panna saab
-                raise Exception(f'Väärtus {value} on selle registri jaoks liiga suur või liiga väike!')
+                print(f"\nWARNING: Arv {value} on registri jaoks liiga suur (max signed 2 ** 10 - 1) ja toimus overflow!")
+                value = abs(value) % 32767
+            
+            if value < 0: #Kui arv on negatiivne, tuleb märki ka arvestada 
+                märk = str(bin(value))[:3]
+                väärtus = str(bin(value))[3:]
+                self.bin_value = märk + väärtus.zfill(15) #Registris peab alati olema 15 bitti (1 märgi jaoks, aga seda arvestab Python ise)
             else:
-                if value < 0: #Kui arv on negatiivne, tuleb märki ka arvestada 
-                    märk = str(bin(value))[:3]
-                    väärtus = str(bin(value))[3:]
-                    self.bin_value = märk + väärtus.zfill(15) #Registris peab alati olema 15 bitti (1 märgi jaoks, aga seda arvestab Python ise)
-                else:
-                    väärtus = str(bin(value))[2:]
-                    self.bin_value = '0b' + väärtus.zfill(15)
+                väärtus = str(bin(value))[2:]
+                self.bin_value = '0b' + väärtus.zfill(15)
         except (TypeError, ValueError):
             raise AssertionError(f'register.store argument peab olema int, aga oli {type(value)}')
 

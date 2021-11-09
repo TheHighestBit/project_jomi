@@ -19,15 +19,22 @@ register_map = {
 if len(sys.argv) > 1:
     failinimi = sys.argv[1]
 else:
-    raise Exception("Kasutus: Python failinimi.risc16")
+    raise Exception("Kasutus: python main.py failinimi.risc16")
 
-with open(failinimi, 'r') as f:
-    käsud = f.read().splitlines()
+try:
+    with open(failinimi, 'r', encoding='UTF-8') as f:
+        käsud = f.read().splitlines()
+except:
+    raise Exception("Faili avamisel tekkis viga! Veendu, et antud fail eksisteeriks!")
 
-käsud = [käsk[:käsk.index(' //')] if '//' in käsk else käsk for käsk in käsud] #Eemaldame kommentaarid
-
+käsud = [käsk[:käsk.index('//')] if '//' in käsk else käsk for käsk in käsud] #Eemaldame kommentaarid
+    
 while config.pc < len(käsud): #Programm jookseb seni, kuni käsud otsa saavad
     käsk = käsud[config.pc].split(' ')
+
+    if len(käsk) == 1 and käsk[0] == '':
+        config.pc += 1
+        continue
 
     if käsk[0] == 'ADDI':
         instructions.ADDI(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')], käsk[3])
@@ -48,8 +55,11 @@ while config.pc < len(käsud): #Programm jookseb seni, kuni käsud otsa saavad
     elif käsk[0] == 'PRINT': #Kuvab ekraanile registri sisu ASCII märgina
         print(chr(register_map[käsk[1]].value()), end='')
         config.pc += 1
-    elif käsk[0] == 'PRINTB': #Prindib registri sisu kahendkoodis
+    elif käsk[0] == 'PRINTB': #Kuvab ekraanile registri sisu kahendkoodis
         print(register_map[käsk[1]].bin_value)
         config.pc += 1
+    elif käsk[0] == 'PRINTI': #Kuvab ekraanile registri sisu kümnendkoodis
+        print(register_map[käsk[1]].value())
+        config.pc += 1
     else:
-        raise Exception("Ebakorrektne käsk!")
+        raise Exception(f"Ebakorrektne käsk! Rida: {config.pc}")

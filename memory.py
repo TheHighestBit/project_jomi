@@ -10,7 +10,7 @@ class Memory():
     def store(self, value, address): #Paigutab väärtuse value mällu vastavale aadressile
         #value peab olema kümnendsüsteemis ja type == int
         assert abs(value) <= 2 ** 15, f"Arv {value} on liiga suur"
-        assert address <= len(self.memory), f"See aadress {address} on mälupiirkonnast väljas"
+        assert 0 <= address <= len(self.memory), f"See aadress {address} on mälupiirkonnast väljas"
 
         if value >= 0:
             self.memory[address] = '0b' + bin(value)[2:].rjust(15, '0')
@@ -18,6 +18,6 @@ class Memory():
             self.memory[address] = '-0b' + bin(value)[3:].rjust(15, '0')
 
     def load(self, address): #Laeb mälust väärtuse kahendsüsteemis
-        assert address <= len(self.memory), f"See aadress {address} on mälupiirkonnast väljas"
+        assert 0 <= address <= len(self.memory), f"See aadress {address} on mälupiirkonnast väljas"
 
         return self.memory[address]
