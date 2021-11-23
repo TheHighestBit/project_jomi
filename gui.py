@@ -23,19 +23,8 @@ button.setStyleSheet(
     "color: 'white';"
 )
 
-button2 = QPushButton("MANUAALNE")
-button2.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-button2.setStyleSheet(
-    "border: 4px solid 'Aquamarine';" +
-    "border-radius: 15px;" +
-    "font-size: 20px;" +
-    "color: 'white';"
-)
-button2.move(64,64)
-
-
 grid.addWidget(button, 1, 0)
-grid.addWidget(button2, 1, 0)
+
 window.setLayout(grid)
 window.show()
 
