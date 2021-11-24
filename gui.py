@@ -5,29 +5,38 @@ from PyQt5.QtGui import QPixmap
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtGui import QCursor
 
-app = QApplication(sys.argv)
-window = QWidget()
-window.setWindowTitle("RISC-16 arhitektuur!!")
-window.setFixedWidth(1000)
-window.setStyleSheet("background: DarkSlateGrey")
+def init():
+    app = QApplication(sys.argv)
+    window = QWidget()
+    window.setWindowTitle("RISC-16 arhitektuur!!")
+    window.setFixedWidth(1000)
+    window.setFixedHeight(500)
+    window.setStyleSheet("background: DarkSlateGrey")
 
-grid = QGridLayout()
+    grid = QGridLayout()
+    widget = QWidget()
+    #nupp
+      
+    button2 = QPushButton(widget)
+    button2.setText("MANUAALNE")
+    button2.move(0, 5000)
+    button2.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+    button2.setStyleSheet(
+        "border: 4px solid 'Aquamarine';" +
+        "border-radius: 15px;" +
+        "font-size: 20px;" +
+        "color: 'white';"
+    )
+    widget.setGeometry(50,50,320,200)
+    
+    grid.addWidget(button2, 1, 0)
+    window.setLayout(grid)
+    window.show()
+    sys.exit(app.exec())
 
-#button widget
-button = QPushButton("AUTOMAATNE")
-button.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-button.setStyleSheet(
-    "border: 4px solid 'Aquamarine';" +
-    "border-radius: 15px;" +
-    "font-size: 20px;" +
-    "color: 'white';"
-)
-
-grid.addWidget(button, 1, 0)
-
-window.setLayout(grid)
-window.show()
+init()
+    
 
 
 
-sys.exit(app.exec())
+
