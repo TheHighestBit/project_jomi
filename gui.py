@@ -19,7 +19,6 @@ def init():
       
     button2 = QPushButton(widget)
     button2.setText("MANUAALNE")
-    button2.move(0, 5000)
     button2.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
     button2.setStyleSheet(
         "border: 4px solid 'Aquamarine';" +
