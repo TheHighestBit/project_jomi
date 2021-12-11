@@ -1,5 +1,6 @@
 #Siia tuleb graafilise kasutajaliidesega seonduv
 import sys
+import config
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QGridLayout,QPushButton, QApplication, QLabel
@@ -9,6 +10,7 @@ class GUI(QWidget):
     def __init__(self):
         super().__init__()
         vbox = QVBoxLayout()
+        self.setFocusPolicy(QtCore.Qt.StrongFocus)
 
         font_size = 15 #Kogu programmi font size, uute elementide loomisel tuleks seda kasutada
         käskude_näide = 'ADD R1, R2, R3\n' * 5 #Näide käskudest, mida kuvatakse, see genereeritakse pärisprogrammis automaatselt
@@ -70,7 +72,7 @@ class GUI(QWidget):
         self.label_käsud = QLabel()
         self.label_käsud.setText(käskude_näide)
         self.label_käsud.setFont(QFont('Arial', font_size))
-        self.label_käsud.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_käsud.setAlignment(QtCore.Qt.AlignLeft)
         rida2.addWidget(self.label_käsud)
         rida2.addStretch()
 
@@ -97,26 +99,57 @@ class GUI(QWidget):
 
     def button_mode_onclick(self):
         if self.button_mode.text() == "AUTOMAATNE":
+            self.start_stop.setDisabled(True)
             self.button_mode.setText("MANUAALNE")
         else:
+            self.start_stop.setEnabled(True)
             self.button_mode.setText("AUTOMAATNE")
 
     def start_stop_onclick(self):
         if self.start_stop.text() == "START":
+            config.running = True
             self.start_stop.setText("STOP")
         else:
+            config.running = False
             self.start_stop.setText("START")
 
+    def keyPressEvent(self, event):
+        if event.key() == QtCore.Qt.Key_Right and self.button_mode.text() == "MANUAALNE":
+            config.running = True
+
+    def update_käsud(self, käsud, pc=-1): #Funktsioon, mis uuendab sõne mida kuvatakse kasutajale
+        väljund = ''
+        
+        if len(käsud) < 11 or pc != -1: #Nool pannakse käsud[pc] kõrvale
+            for i, käsk in enumerate(käsud):
+                käsk_töödeldud = ' ' * 6 + (käsk).ljust(14)
+                if i == pc:
+                    väljund += '-->' + käsk_töödeldud[4:]
+                else:
+                    väljund += käsk_töödeldud
+
+                väljund += '\n'
+        
+        else: #Nool läheb keskmise käsu kõrvale
+            keskmine = (len(käsud) // 2)
+
+            for i, käsk in enumerate(käsud):
+                käsk_töödeldud = ' ' * 6 + (käsk).ljust(14)
+                if i == keskmine:
+                    väljund += '-->' + käsk_töödeldud[4:]
+                else:
+                    väljund += käsk_töödeldud
+
+                väljund += '\n'
+
+        self.label_käsud.setText(väljund)
+
+    def closeEvent(self, event):
+        event.accept()
+        config.close = True
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     windowExample = GUI()
     windowExample.show()
     sys.exit(app.exec_())
-
-
-    
-
-
-
-
