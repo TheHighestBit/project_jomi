@@ -40,12 +40,12 @@ gui.failinimi.setText(failinimi)
 
 käsud = [käsk[:käsk.index('//')] if '//' in käsk else käsk for käsk in käsud] #Eemaldame kommentaarid
 
-def kuva_käsud():
-    if len(käsud) <= 11:
+def kuva_käsud(): #Kuvab kasutajale ülevaate käskudest
+    if len(käsud) < 11:
         gui.update_käsud(käsud, config.pc)
     elif (len(käsud) - config.pc) <= 4:
         gui.update_käsud(käsud[::-1][:11], (11 - len(käsud) + config.pc) - 1)
-    elif config.pc <= 5:
+    elif config.pc <= 6:
         gui.update_käsud(käsud[:11], config.pc)
     else:
         gui.update_käsud(käsud[config.pc - 6:config.pc + 5])
@@ -96,16 +96,15 @@ while config.pc != (len(käsud)):
         else:
             raise Exception(f"Ebakorrektne käsk! Rida: {config.pc}")
 
-        kuva_käsud()
 
         if gui.button_mode.text() == "MANUAALNE":
             config.running = False
         else:
             wait(1000)
+
+        kuva_käsud()
     
-    else: #Peame siin ootama, et me niisama tühja tööd ei teeks
-        loop = QtCore.QEventLoop() #Ootab mingi kindla aja
-        QtCore.QTimer.singleShot(10, loop.quit)
-        loop.exec_()
+    else: #Kuna kasutame pollimist, peame siis mõned millisekundid ootama, et CPU tühja ei käiks
+        wait(10)
 
 sys.exit(app.exec_())

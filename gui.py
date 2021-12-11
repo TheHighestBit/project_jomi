@@ -22,6 +22,7 @@ class GUI(QWidget):
         self.start_stop.setFont(QFont('Arial', font_size))
         self.start_stop.clicked.connect(self.start_stop_onclick)
         self.start_stop.setFixedSize(QtCore.QSize(500, 80))
+        self.start_stop.setFocusPolicy(QtCore.Qt.NoFocus)
         command_rida.addWidget(self.start_stop)
 
         self.failinimi = QLabel()
@@ -45,6 +46,7 @@ class GUI(QWidget):
         self.button_mode.setFont(QFont('Arial', font_size))
         self.button_mode.clicked.connect(self.button_mode_onclick)
         self.button_mode.setFixedSize(QtCore.QSize(500, 80))
+        self.button_mode.setFocusPolicy(QtCore.Qt.NoFocus)
         rida1.addWidget(self.button_mode)
 
         vbox.addLayout(rida1) #Lisame rea üldisesse layouti
