@@ -6,7 +6,6 @@ import config, instructions
 from gui import GUI
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication
-from time import sleep
 config.init()
 
 register_map = {
@@ -56,6 +55,7 @@ def wait(n): #Ootab n millisekundit
     loop.exec_()
 
 kuva_käsud()
+gui.update_registers()
 
 while config.pc != (len(käsud)):
     if config.close == True:
@@ -101,7 +101,8 @@ while config.pc != (len(käsud)):
             config.running = False
         else:
             wait(1000)
-
+        
+        gui.update_registers()
         kuva_käsud()
     
     else: #Kuna kasutame pollimist, peame siis mõned millisekundid ootama, et CPU tühja ei käiks

@@ -21,7 +21,6 @@ class GUI(QWidget):
         self.start_stop.setText("START")
         self.start_stop.setFont(QFont('Arial', font_size))
         self.start_stop.clicked.connect(self.start_stop_onclick)
-        self.start_stop.setFixedSize(QtCore.QSize(500, 80))
         self.start_stop.setFocusPolicy(QtCore.Qt.NoFocus)
         command_rida.addWidget(self.start_stop)
 
@@ -33,57 +32,48 @@ class GUI(QWidget):
         vbox.addLayout(command_rida)
         
         rida1 = QtWidgets.QHBoxLayout() #Teine rida
-        rida1.addStretch()
         label_käskude_täitmine = QLabel()
         label_käskude_täitmine.setText("Käskude täitmine:")
         label_käskude_täitmine.setAlignment(QtCore.Qt.AlignRight)
         label_käskude_täitmine.setFont(QFont('Arial', font_size))
         label_käskude_täitmine.setStyleSheet("padding: 15px;text-decoration: underline") #Selliselt saab kõiki elemente disainida nii nagu soovi on
         rida1.addWidget(label_käskude_täitmine)
-        rida1.addStretch()
 
         self.button_mode = QPushButton("AUTOMAATNE") #Nupp, mis muudab käskude täitmise viisi, kas automaatne või manuaalne
         self.button_mode.setFont(QFont('Arial', font_size))
         self.button_mode.clicked.connect(self.button_mode_onclick)
-        self.button_mode.setFixedSize(QtCore.QSize(500, 80))
         self.button_mode.setFocusPolicy(QtCore.Qt.NoFocus)
         rida1.addWidget(self.button_mode)
 
         vbox.addLayout(rida1) #Lisame rea üldisesse layouti
 
         abi_rida = QHBoxLayout()
-        abi_rida.addStretch()
         käsud = QLabel() #Lihtne label mis on käskude kohal
         käsud.setText("Call stack")
         käsud.setFont(QFont('Arial', font_size))
         käsud.setAlignment(QtCore.Qt.AlignCenter)
         abi_rida.addWidget(käsud)
-        abi_rida.addStretch()
 
         registrid = QLabel() #Lihtne label mis on registrite kohal
         registrid.setText("Registers")
         registrid.setFont(QFont('Arial', font_size))
         registrid.setAlignment(QtCore.Qt.AlignCenter)
         abi_rida.addWidget(registrid)
-        abi_rida.addStretch()
 
         vbox.addLayout(abi_rida)
 
         rida2 = QHBoxLayout() #Selles reas on registrite ja käskude näitamine
-        rida2.addStretch()
         self.label_käsud = QLabel()
         self.label_käsud.setText(käskude_näide)
         self.label_käsud.setFont(QFont('Arial', font_size))
         self.label_käsud.setAlignment(QtCore.Qt.AlignLeft)
         rida2.addWidget(self.label_käsud)
-        rida2.addStretch()
 
         self.registrid = QLabel()
         self.registrid.setFont(QFont('Arial', font_size))
-        self.registrid.setAlignment(QtCore.Qt.AlignCenter)
+        self.registrid.setAlignment(QtCore.Qt.AlignLeft)
         self.registrid.setText(registrid_näide)
         rida2.addWidget(self.registrid)
-        rida2.addStretch()
         
         vbox.addLayout(rida2)
 
@@ -124,7 +114,9 @@ class GUI(QWidget):
         
         if len(käsud) < 11 or pc != -1: #Nool pannakse käsud[pc] kõrvale
             for i, käsk in enumerate(käsud):
-                käsk_töödeldud = ' ' * 6 + (käsk).ljust(14)
+                if käsk == '':
+                    käsk = 'NOP'
+                käsk_töödeldud = (' ' * 6) + str(i + pc) + ': ' + (käsk).ljust(14)
                 if i == pc:
                     väljund += '-->' + käsk_töödeldud[4:]
                 else:
@@ -136,7 +128,7 @@ class GUI(QWidget):
             keskmine = (len(käsud) // 2)
 
             for i, käsk in enumerate(käsud):
-                käsk_töödeldud = ' ' * 6 + (käsk).ljust(14)
+                käsk_töödeldud = (' ' * 6) + str(i + config.pc) + ': ' + (käsk).ljust(14)
                 if i == keskmine:
                     väljund += '-->' + käsk_töödeldud[4:]
                 else:
@@ -145,6 +137,20 @@ class GUI(QWidget):
                 väljund += '\n'
 
         self.label_käsud.setText(väljund)
+
+    def update_registers(self): #Uuendab kasutajale kuvatavate registrite sisu
+        väljund = ' ' * 7 + 'R0: #0' + '\n'
+
+        väljund += ' ' * 7 + 'R1: #' + (str(config.r1.value())).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R2: #' + (str(config.r2.value())).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R3: #' + (str(config.r3.value())).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R4: #' + (str(config.r4.value())).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R5: #' + (str(config.r5.value())).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R6: #' + (str(config.r6.value())).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R7: #' + (str(config.r7.value())).ljust(15) + '\n'
+
+        self.registrid.setText(väljund)
+
 
     def closeEvent(self, event):
         event.accept()
