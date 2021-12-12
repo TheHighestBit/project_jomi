@@ -3,8 +3,8 @@ import sys
 import config
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QGridLayout,QPushButton, QApplication, QLabel
-from PyQt5 import Qt, QtCore
+from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget,QPushButton, QApplication, QLabel
+from PyQt5 import QtCore
 
 class GUI(QWidget):
     def __init__(self):
@@ -72,6 +72,7 @@ class GUI(QWidget):
         self.registrid = QLabel()
         self.registrid.setFont(QFont('Arial', font_size))
         self.registrid.setAlignment(QtCore.Qt.AlignLeft)
+        self.registrid.setFixedWidth(450)
         self.registrid.setText(registrid_näide)
         rida2.addWidget(self.registrid)
         
@@ -128,6 +129,8 @@ class GUI(QWidget):
             keskmine = (len(käsud) // 2)
 
             for i, käsk in enumerate(käsud):
+                if käsk == '':
+                    käsk = 'NOP'
                 käsk_töödeldud = (' ' * 6) + str(i + config.pc) + ': ' + (käsk).ljust(14)
                 if i == keskmine:
                     väljund += '-->' + käsk_töödeldud[4:]
@@ -151,6 +154,14 @@ class GUI(QWidget):
 
         self.registrid.setText(väljund)
 
+    def increase_ram(self):
+        config.used_ram += 1
+        self.label_ram.setText(f'RAM {config.used_ram}/{len(config.mälu.memory)} baiti')
+
+    def decrease_ram(self):
+        if config.used_ram != 0:
+            config.used_ram -= 1
+        self.label_ram.setText(f'RAM {config.used_ram}/{len(config.mälu.memory)} baiti')
 
     def closeEvent(self, event):
         event.accept()

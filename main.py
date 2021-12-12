@@ -78,8 +78,10 @@ while config.pc != (len(käsud)):
             instructions.NAND(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')], register_map[käsk[3].strip(',')])
         elif käsk[0] == 'SW':
             instructions.SW(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')], käsk[3])
+            gui.increase_ram()
         elif käsk[0] == 'LW':
             instructions.LW(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')], käsk[3])
+            gui.decrease_ram()
         elif käsk[0] == 'BEQ':
             instructions.BEQ(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')], käsk[3])
         elif käsk[0] == 'JALR':
