@@ -98,7 +98,7 @@ while config.pc != (len(käsud)):
 
         kuva_käsud()
 
-        if gui.button_mode.text() == "MANUAALNE":
+        if gui.button_mode.text() == 'MANUAALNE (edenemiseks vajutage "->" klahvi)':
             config.running = False
         else:
             wait(1000)
