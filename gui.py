@@ -2,7 +2,7 @@
 import sys
 import config
 from PyQt5 import QtWidgets
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QCursor
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget,QPushButton, QApplication, QLabel
 from PyQt5 import QtCore
 
@@ -21,7 +21,16 @@ class GUI(QWidget):
         self.start_stop.setText("START")
         self.start_stop.setFont(QFont('Arial', font_size))
         self.start_stop.clicked.connect(self.start_stop_onclick)
+        self.start_stop.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.start_stop.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.setStyleSheet("background-color: #848694;") #taust
+        self.start_stop.setStyleSheet(
+            "border-style: outset;" +
+            "border-width: 2px;" +
+            "border-radius: 15px;" + 
+            "border-color: black;" +
+            "padding: 25px 0;"
+        )
         command_rida.addWidget(self.start_stop)
 
         self.failinimi = QLabel()
@@ -43,6 +52,16 @@ class GUI(QWidget):
         self.button_mode.setFont(QFont('Arial', font_size))
         self.button_mode.clicked.connect(self.button_mode_onclick)
         self.button_mode.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.button_mode.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+        self.button_mode.setStyleSheet(
+            "border: 4px solid '#BC006C';" +
+            "border-style: outset;" +
+            "border-width: 2px;" +
+            "border-radius: 15px;" + 
+            "border-color: black;" +
+            "padding: 4px;"
+        )
+        
         rida1.addWidget(self.button_mode)
 
         vbox.addLayout(rida1) #Lisame rea üldisesse layouti
