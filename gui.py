@@ -1,5 +1,4 @@
 #Siia tuleb graafilise kasutajaliidesega seonduv
-import sys
 import config
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont, QCursor
@@ -46,14 +45,12 @@ class GUI(QWidget):
         vbox.addLayout(command_rida)
         
         rida1 = QtWidgets.QHBoxLayout() #Teine rida
-        rida1.addStretch()
         label_käskude_täitmine = QLabel()
         label_käskude_täitmine.setText("KÄSKUDE TÄITMINE:")
         label_käskude_täitmine.setAlignment(QtCore.Qt.AlignRight)
         label_käskude_täitmine.setFont(QFont('Arial'))
         label_käskude_täitmine.setStyleSheet("padding: 20px 5px;font-weight:bold;font-size:25px") #Selliselt saab kõiki elemente disainida nii nagu soovi on
         rida1.addWidget(label_käskude_täitmine)
-        rida1.addStretch()
 
         self.button_mode = QPushButton("AUTOMAATNE") #Nupp, mis muudab käskude täitmise viisi, kas automaatne või manuaalne
         self.button_mode.setFont(QFont('Arial'))
