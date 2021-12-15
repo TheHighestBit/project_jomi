@@ -39,7 +39,7 @@ class GUI(QWidget):
 
         self.failinimi = QLabel()
         self.failinimi.setText('masinkood.risc16')
-        self.failinimi.setFont(QFont('Arial', font_size))
+        self.failinimi.setFont(QFont('Arial'))
         self.failinimi.setStyleSheet("padding:20px; font-weight:bold; font-size: 30px;color:white")
         command_rida.addWidget(self.failinimi)
 
@@ -50,7 +50,7 @@ class GUI(QWidget):
         label_käskude_täitmine = QLabel()
         label_käskude_täitmine.setText("KÄSKUDE TÄITMINE:")
         label_käskude_täitmine.setAlignment(QtCore.Qt.AlignRight)
-        label_käskude_täitmine.setFont(QFont('Arial', font_size))
+        label_käskude_täitmine.setFont(QFont('Arial'))
         label_käskude_täitmine.setStyleSheet("padding: 20px 5px;font-weight:bold;font-size:25px") #Selliselt saab kõiki elemente disainida nii nagu soovi on
         rida1.addWidget(label_käskude_täitmine)
         rida1.addStretch()
