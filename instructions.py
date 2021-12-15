@@ -11,10 +11,10 @@ def decode_imm(imm): #tagastab kümnendarvu
     #kuueteistkümnendiksüsteem
     elif '$' in imm:
         return int(imm[1:], 16)
-    #kahendiksüsteem
+    #octal
     elif 'O' in imm:
         return int(imm[1:], 8)
-    #octal
+    #kahendiksüsteem
     else:
         return int(imm[1:], 2)
 

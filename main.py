@@ -54,7 +54,7 @@ def kuva_käsud(): #Kuvab kasutajale ülevaate käskudest
     if len(käsud) < 11:
         gui.update_käsud(käsud, config.pc)
     elif (len(käsud) - config.pc) <= 4:
-        gui.update_käsud(käsud[::-1][:11][::-1], (11 - len(käsud) + config.pc) - 1)
+        gui.update_käsud(käsud[::-1][:11][::-1], (11 - len(käsud) + config.pc))
     elif config.pc <= 6:
         gui.update_käsud(käsud[:11], config.pc)
     else:
@@ -111,13 +111,14 @@ while config.pc != (len(käsud)):
 
         if gui.button_mode.text() == 'MANUAALNE (edenemiseks vajutage "->" klahvi)':
             config.running = False
-        else:
-            wait(1000)
-        
+
         gui.update_registers()
         kuva_käsud()
+
+        if config.running:
+            wait(1500)
     
-    else: #Kuna kasutame pollimist, peame siis mõned millisekundid ootama, et CPU tühja ei käiks
+    else: #Kuna kasutame pollimist, peame siin mõned millisekundid ootama, et CPU tühja ei käiks
         wait(10)
 
 sys.exit(app.exec_())

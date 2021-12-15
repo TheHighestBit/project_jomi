@@ -15,7 +15,7 @@ def init():
     global mälu
     global pc #program counter, lihtsalt tavaline int
     global running #Bool kas programm jookseb või mitte
-    global close #Bool kas programm tuleks kinni panna või mitte
+    global close #Bool kas programmi aken on suletud ja kas programm tuleks peatada
     global used_ram #Jälgib, mitu baiti mälu on kasutuses
 
     r0 = Register(is_0=True) #Selle registri väärtus on alati null!
@@ -28,7 +28,7 @@ def init():
     r7 = Register()
     pc = 0
 
-    mälu = Memory(1000)
+    mälu = Memory(128)
 
     running = False
     close = False

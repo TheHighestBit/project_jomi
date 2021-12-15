@@ -77,7 +77,7 @@ class GUI(QWidget):
         käsud.setText("\nCall stack")
         käsud.setFont(QFont('Arial'))
         käsud.setAlignment(QtCore.Qt.AlignCenter)
-        käsud.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px;padding-left: 90px')
+        käsud.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px;padding-left: 0px')
         abi_rida.addWidget(käsud)
         abi_rida.addStretch()
 
@@ -96,14 +96,16 @@ class GUI(QWidget):
         self.label_käsud = QLabel()
         self.label_käsud.setFont(QFont('Arial'))
         self.label_käsud.setAlignment(QtCore.Qt.AlignLeft)
-        self.label_käsud.setStyleSheet("font-size:22px;background-color:#eb5757;")
+        self.label_käsud.setFixedWidth(350)
+        self.label_käsud.setStyleSheet("font-size:22px;background-color:#eb5757;border-radius: 5px")
         rida2.addWidget(self.label_käsud)
         rida2.addStretch()
 
         self.registrid = QLabel()
         self.registrid.setFont(QFont('Arial'))
         self.registrid.setAlignment(QtCore.Qt.AlignJustify)
-        self.registrid.setStyleSheet("font-size:22px;background-color:#eb5757;")
+        self.registrid.setFixedWidth(350)
+        self.registrid.setStyleSheet("font-size:22px;background-color:#eb5757;border-radius: 5px")
         rida2.addWidget(self.registrid)
         rida2.addStretch()
         
@@ -225,29 +227,29 @@ class GUI(QWidget):
         self.label_käsud.setText(väljund)
 
     def update_registers(self): #Uuendab kasutajale kuvatavate registrite sisu
-        väljund = ' ' * 7 + 'R0: #0' + '\n'
+        väljund = ' ' * 7 + 'R0: #0, 0x0' + '\n'
 
-        väljund += ' ' * 7 + 'R1: #' + (str(config.r1.value())).ljust(15) + '\n'
-        väljund += ' ' * 7 + 'R2: #' + (str(config.r2.value())).ljust(15) + '\n'
-        väljund += ' ' * 7 + 'R3: #' + (str(config.r3.value())).ljust(15) + '\n'
-        väljund += ' ' * 7 + 'R4: #' + (str(config.r4.value())).ljust(15) + '\n'
-        väljund += ' ' * 7 + 'R5: #' + (str(config.r5.value())).ljust(15) + '\n'
-        väljund += ' ' * 7 + 'R6: #' + (str(config.r6.value())).ljust(15) + '\n'
-        väljund += ' ' * 7 + 'R7: #' + (str(config.r7.value())).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R1: #' + (str(config.r1.value()) + ', ' + str(hex(config.r1.value()))).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R2: #' + (str(config.r2.value()) + ', ' + str(hex(config.r2.value()))).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R3: #' + (str(config.r3.value()) + ', ' + str(hex(config.r3.value()))).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R4: #' + (str(config.r4.value()) + ', ' + str(hex(config.r4.value()))).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R5: #' + (str(config.r5.value()) + ', ' + str(hex(config.r5.value()))).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R6: #' + (str(config.r6.value()) + ', ' + str(hex(config.r6.value()))).ljust(15) + '\n'
+        väljund += ' ' * 7 + 'R7: #' + (str(config.r7.value()) + ', ' + str(hex(config.r7.value()))).ljust(15) + '\n'
 
         self.registrid.setText(väljund)
 
     def increase_ram(self):
         config.used_ram += 1
         
-        protsent = (100 * config.used_ram) / len(config.mälu.memory)
+        protsent = round((100 * config.used_ram) / len(config.mälu.memory), 2)
         self.label_ram.setText(f'RAM: {protsent}% {config.used_ram} B')
 
     def decrease_ram(self):
         if config.used_ram != 0:
             config.used_ram -= 1
         
-        protsent = (100 * config.used_ram) / len(config.mälu.memory)
+        protsent = round((100 * config.used_ram) / len(config.mälu.memory), 2)
         self.label_ram.setText(f'RAM: {protsent}% {config.used_ram} B')
 
     def closeEvent(self, event):
