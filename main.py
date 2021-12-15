@@ -8,6 +8,14 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication
 config.init()
 
+ASCII_art ='''    ___           _           _      __                  _ 
+  / _ \_ __ ___ (_) ___  ___| |_    \ \  ___  _ __ ___ (_)
+ / /_)/ '__/ _ \| |/ _ \/ __| __|    \ \/ _ \| '_ ` _ \| |
+/ ___/| | | (_) | |  __/ (__| |_  /\_/ / (_) | | | | | | |
+\/    |_|  \___// |\___|\___|\__| \___/ \___/|_| |_| |_|_|
+              |__/                                        
+'''
+
 register_map = {
     'R0': config.r0,
     'R1': config.r1,
@@ -29,6 +37,9 @@ try:
         käsud = f.read().splitlines()
 except:
     raise Exception("Faili avamisel tekkis viga! Veendu, et antud fail eksisteeriks!")
+
+print(ASCII_art)
+print("Executing:", failinimi, end='\n' + '---' * 15 + '\n')
 
 
 app = QApplication(sys.argv)
@@ -56,6 +67,8 @@ def wait(n): #Ootab n millisekundit
 
 kuva_käsud()
 gui.update_registers()
+gui.increase_ram()
+gui.decrease_ram()
 
 while config.pc != (len(käsud)):
     if config.close == True:
@@ -87,13 +100,13 @@ while config.pc != (len(käsud)):
         elif käsk[0] == 'JALR':
             instructions.JALR(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')])
         elif käsk[0] == 'PRINT': #Kuvab ekraanile registri sisu ASCII märgina
-            print(chr(register_map[käsk[1]].value()))
+            print('OUT-->', chr(register_map[käsk[1]].value()))
             config.pc += 1
         elif käsk[0] == 'PRINTB': #Kuvab ekraanile registri sisu kahendkoodis
-            print(register_map[käsk[1]].bin_value)
+            print('OUT-->', register_map[käsk[1]].bin_value)
             config.pc += 1
         elif käsk[0] == 'PRINTI': #Kuvab ekraanile registri sisu kümnendkoodis
-            print(register_map[käsk[1]].value())
+            print('OUT-->', register_map[käsk[1]].value())
             config.pc += 1
         else:
             raise Exception(f"Ebakorrektne käsk! Rida: {config.pc}")
