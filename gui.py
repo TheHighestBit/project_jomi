@@ -60,6 +60,7 @@ class GUI(QWidget):
         self.button_mode.clicked.connect(self.button_mode_onclick)
         self.button_mode.setFixedSize(QtCore.QSize(500, 80))
         self.button_mode.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+        self.button_mode.setFocusPolicy(QtCore.Qt.NoFocus)
         self.button_mode.setStyleSheet(
             "border: 4px solid '#BC006C';" +
             "border-style: outset;" +
@@ -186,11 +187,12 @@ class GUI(QWidget):
     def update_käsud(self, käsud, pc=-1): #Funktsioon, mis uuendab sõne mida kuvatakse kasutajale
         väljund = ''
         
-        if len(käsud) < 11 or pc != -1: #Nool pannakse käsud[pc] kõrvale
+        if len(käsud) >= 11 and pc != -1: #Nool pannakse käsud[pc] kõrvale
             for i, käsk in enumerate(käsud):
-                if käsk == '':
-                    käsk = 'NOP'
-                käsk_töödeldud = (' ' * 6) + str(i + pc) + ': ' + (käsk).ljust(14)
+                if config.pc < 11:
+                    käsk_töödeldud = (' ' * 6) + str(i) + ': ' + (käsk).ljust(14)
+                else:
+                    käsk_töödeldud = (' ' * 6) + str(i + config.pc - pc) + ': ' + (käsk).ljust(14)
                 if i == pc:
                     väljund += '-->' + käsk_töödeldud[4:]
                 else:
@@ -198,13 +200,20 @@ class GUI(QWidget):
 
                 väljund += '\n'
         
+        elif len(käsud) < 11 and pc != -1:
+            for i, käsk in enumerate(käsud):
+                käsk_töödeldud = (' ' * 6) + str(i) + ': ' + (käsk).ljust(14)
+                if i == pc:
+                    väljund += '-->' + käsk_töödeldud[4:]
+                else:
+                    väljund += käsk_töödeldud
+
+                väljund += '\n'
         else: #Nool läheb keskmise käsu kõrvale
-            keskmine = (len(käsud) // 2)
+            keskmine = (len(käsud) // 2) + 1
 
             for i, käsk in enumerate(käsud):
-                if käsk == '':
-                    käsk = 'NOP'
-                käsk_töödeldud = (' ' * 6) + str(i + config.pc) + ': ' + (käsk).ljust(14)
+                käsk_töödeldud = (' ' * 6) + str(i + config.pc - 6) + ': ' + (käsk).ljust(14)
                 if i == keskmine:
                     väljund += '-->' + käsk_töödeldud[4:]
                 else:
@@ -229,19 +238,17 @@ class GUI(QWidget):
 
     def increase_ram(self):
         config.used_ram += 1
-        self.label_ram.setText(f'RAM {config.used_ram}/{len(config.mälu.memory)} baiti')
+        
+        protsent = (100 * config.used_ram) / len(config.mälu.memory)
+        self.label_ram.setText(f'RAM: {protsent}% {config.used_ram} B')
 
     def decrease_ram(self):
         if config.used_ram != 0:
             config.used_ram -= 1
-        self.label_ram.setText(f'RAM {config.used_ram}/{len(config.mälu.memory)} baiti')
+        
+        protsent = (100 * config.used_ram) / len(config.mälu.memory)
+        self.label_ram.setText(f'RAM: {protsent}% {config.used_ram} B')
 
     def closeEvent(self, event):
         event.accept()
         config.close = True
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    windowExample = GUI()
-    windowExample.show()
-    sys.exit(app.exec_())

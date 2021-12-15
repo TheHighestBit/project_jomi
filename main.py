@@ -49,12 +49,14 @@ gui.show()
 gui.failinimi.setText(failinimi)
 
 käsud = [käsk[:käsk.index('//')] if '//' in käsk else käsk for käsk in käsud] #Eemaldame kommentaarid
+käsud = ['NOP' if käsk == '' else käsk for käsk in käsud]
+print(käsud)
 
 def kuva_käsud(): #Kuvab kasutajale ülevaate käskudest
     if len(käsud) < 11:
         gui.update_käsud(käsud, config.pc)
     elif (len(käsud) - config.pc) <= 4:
-        gui.update_käsud(käsud[::-1][:11], (11 - len(käsud) + config.pc) - 1)
+        gui.update_käsud(käsud[::-1][:11][::-1], (11 - len(käsud) + config.pc) - 1)
     elif config.pc <= 6:
         gui.update_käsud(käsud[:11], config.pc)
     else:
@@ -75,11 +77,6 @@ while config.pc != (len(käsud)):
         exit()
     if config.running:
         käsk = käsud[config.pc].split(' ')
-
-        if len(käsk) == 1 and käsk[0] == '':
-            config.pc += 1
-            kuva_käsud()
-            continue
 
         if käsk[0] == 'ADDI':
             instructions.ADDI(register_map[käsk[1].strip(',')], register_map[käsk[2].strip(',')], käsk[3])
@@ -107,6 +104,8 @@ while config.pc != (len(käsud)):
             config.pc += 1
         elif käsk[0] == 'PRINTI': #Kuvab ekraanile registri sisu kümnendkoodis
             print('OUT-->', register_map[käsk[1]].value())
+            config.pc += 1
+        elif käsk[0] == "NOP":
             config.pc += 1
         else:
             raise Exception(f"Ebakorrektne käsk! Rida: {config.pc}")
