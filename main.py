@@ -112,7 +112,7 @@ while config.pc != (len(käsud)):
             raise Exception(f"Ebakorrektne käsk! Rida: {config.pc}")
 
 
-        if gui.button_mode.text() == "MANUAALNE":
+        if gui.button_mode.text() == 'MANUAALNE (edenemiseks vajutage "->" klahvi)':
             config.running = False
         else:
             wait(1000)
