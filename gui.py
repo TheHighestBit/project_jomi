@@ -11,6 +11,7 @@ class GUI(QWidget):
         super().__init__()
         vbox = QVBoxLayout()
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.setFixedHeight(600)
 
         font_size = 15 #Kogu programmi font size, uute elementide loomisel tuleks seda kasutada
         käskude_näide = 'ADD R1, R2, R3\n' * 5 #Näide käskudest, mida kuvatakse, see genereeritakse pärisprogrammis automaatselt
@@ -30,7 +31,8 @@ class GUI(QWidget):
             "border-color: black;" +
             "padding: 25px;" +
             "background-color: yellow;"+
-            "font-weight:bold;"
+            "font-weight:bold;"+
+            "margin-right:10px"
         )
 
 
