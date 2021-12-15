@@ -19,7 +19,7 @@ class GUI(QWidget):
         command_rida = QtWidgets.QHBoxLayout() #Selles reas on start, paus ja programmi nimi
         self.start_stop = QPushButton()
         self.start_stop.setText("START")
-        self.start_stop.setFont(QFont('Arial', font_size+4))
+        self.start_stop.setFont(QFont('Arial'))
         self.start_stop.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.start_stop.clicked.connect(self.start_stop_onclick)
         self.start_stop.setFixedSize(QtCore.QSize(500, 80))
@@ -28,10 +28,11 @@ class GUI(QWidget):
             "border-width: 2px;" +
             "border-radius: 15px;" + 
             "border-color: black;" +
-            "padding: 25px;" +
+            "padding: 20px;" +
             "background-color: yellow;"+
             "font-weight:bold;"+
-            "margin-right:10px"
+            "margin-right:10px;"+
+            "font-size:30px"
         )
 
 
@@ -57,7 +58,7 @@ class GUI(QWidget):
         rida1.addStretch()
 
         self.button_mode = QPushButton("AUTOMAATNE") #Nupp, mis muudab käskude täitmise viisi, kas automaatne või manuaalne
-        self.button_mode.setFont(QFont('Arial', font_size+1))
+        self.button_mode.setFont(QFont('Arial'))
         self.button_mode.clicked.connect(self.button_mode_onclick)
         self.button_mode.setFixedSize(QtCore.QSize(500, 80))
         self.button_mode.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
@@ -68,7 +69,8 @@ class GUI(QWidget):
             "border-radius: 15px;" + 
             "border-color: black;" +
             "padding: 4px;" +
-            "background-color: #d47d13;"
+            "background-color: #d47d13;"+
+            "font-size: 25px;"
         )
 
         rida1.addWidget(self.button_mode)
@@ -79,17 +81,17 @@ class GUI(QWidget):
         abi_rida.addStretch()
         käsud = QLabel() #Lihtne label mis on käskude kohal
         käsud.setText("\nCall stack")
-        käsud.setFont(QFont('Arial', font_size))
+        käsud.setFont(QFont('Arial'))
         käsud.setAlignment(QtCore.Qt.AlignCenter)
-        käsud.setStyleSheet('font-weight:bold;text-decoration:underline')
+        käsud.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px')
         abi_rida.addWidget(käsud)
         abi_rida.addStretch()
 
         registrid = QLabel() #Lihtne label mis on registrite kohal
         registrid.setText("\nRegisters")
-        registrid.setFont(QFont('Arial', font_size))
+        registrid.setFont(QFont('Arial'))
         registrid.setAlignment(QtCore.Qt.AlignCenter)
-        registrid.setStyleSheet('font-weight:bold;text-decoration:underline')
+        registrid.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px')
         abi_rida.addWidget(registrid)
         abi_rida.addStretch()
 
@@ -101,6 +103,7 @@ class GUI(QWidget):
         self.label_käsud.setText(käskude_näide)
         self.label_käsud.setFont(QFont('Arial', font_size))
         self.label_käsud.setAlignment(QtCore.Qt.AlignLeft)
+        self.label_käsud.setStyleSheet("font-size:22px")
         rida2.addWidget(self.label_käsud)
         rida2.addStretch()
 
@@ -108,6 +111,7 @@ class GUI(QWidget):
         self.registrid.setFont(QFont('Arial', font_size))
         self.registrid.setAlignment(QtCore.Qt.AlignJustify)
         self.registrid.setText(registrid_näide)
+        self.registrid.setStyleSheet("font-size:22px")
         rida2.addWidget(self.registrid)
         rida2.addStretch()
         
@@ -117,7 +121,8 @@ class GUI(QWidget):
         self.label_ram = QLabel()
         self.label_ram.setText('RAM: 0/100 baiti') #Otseloomulikult uuendatakse ka mälukasutust automaatselt peale igat käsku
         self.label_ram.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_ram.setFont(QFont('Arial', font_size + 10))
+        self.label_ram.setFont(QFont('Arial'))
+        self.label_ram.setStyleSheet('font-size:35px')
         rida3.addWidget(self.label_ram)
 
         vbox.addLayout(rida3)
@@ -137,7 +142,8 @@ class GUI(QWidget):
                 "border-color: black;" +
                 "padding: 4px;" +
                 "background-color: #8a5719;"+
-                "outline:none"
+                "outline:none;"+
+                "font-size: 21px;"
             )
         else:
             self.start_stop.setEnabled(True)
@@ -149,7 +155,8 @@ class GUI(QWidget):
                 "border-color: black;" +
                 "padding: 4px;" +
                 "background-color: #d47d13;"+
-                "outline:none"
+                "outline:none;"+
+                "font-size: 25px;"
             )
             self.button_mode.setText("AUTOMAATNE")
 
@@ -165,7 +172,8 @@ class GUI(QWidget):
             "padding: 25px 0;" +
             "background-color: red;"+
             "font-weight:bold;"+
-            "outline:none"
+            "outline:none;"+
+            "font-size:30px"
             )
         else:
             config.running = False
@@ -178,7 +186,8 @@ class GUI(QWidget):
             "padding: 25px 0;" +
             "background-color: yellow;"+
             "font-weight:bold;"+
-            "outline:none"
+            "outline:none;"+
+            "font-size:30px"
             )
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_Right and self.button_mode.text() == 'MANUAALNE (edenemiseks vajutage "->" klahvi)':
