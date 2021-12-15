@@ -41,7 +41,6 @@ except:
 print(ASCII_art)
 print("Executing:", failinimi, end='\n' + '---' * 15 + '\n')
 
-
 app = QApplication(sys.argv)
 gui = GUI()
 gui.show()
@@ -50,7 +49,6 @@ gui.failinimi.setText(failinimi)
 
 käsud = [käsk[:käsk.index('//')] if '//' in käsk else käsk for käsk in käsud] #Eemaldame kommentaarid
 käsud = ['NOP' if käsk == '' else käsk for käsk in käsud]
-print(käsud)
 
 def kuva_käsud(): #Kuvab kasutajale ülevaate käskudest
     if len(käsud) < 11:

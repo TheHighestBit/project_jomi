@@ -13,8 +13,6 @@ class GUI(QWidget):
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
 
         font_size = 15 #Kogu programmi font size, uute elementide loomisel tuleks seda kasutada
-        käskude_näide = 'ADD R1, R2, R3\n' * 5 #Näide käskudest, mida kuvatakse, see genereeritakse pärisprogrammis automaatselt
-        registrid_näide = ''.join(['R' + str(x) + ': #420' + '\n' for x in range(8)]) #Näide registrite olekutest, see genereeritakse peale igat käsku automaatselt
         
         command_rida = QtWidgets.QHBoxLayout() #Selles reas on start, paus ja programmi nimi
         self.start_stop = QPushButton()
@@ -74,7 +72,7 @@ class GUI(QWidget):
             "font-size: 25px;"
         )
 
-        rida1.addWidget(self.button_mode)
+        rida1.addWidget(self.button_mode, alignment=QtCore.Qt.AlignLeft)
 
         vbox.addLayout(rida1) #Lisame rea üldisesse layouti
 
@@ -84,7 +82,7 @@ class GUI(QWidget):
         käsud.setText("\nCall stack")
         käsud.setFont(QFont('Arial'))
         käsud.setAlignment(QtCore.Qt.AlignCenter)
-        käsud.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px')
+        käsud.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px;padding-left: 90px')
         abi_rida.addWidget(käsud)
         abi_rida.addStretch()
 
@@ -92,7 +90,7 @@ class GUI(QWidget):
         registrid.setText("\nRegisters")
         registrid.setFont(QFont('Arial'))
         registrid.setAlignment(QtCore.Qt.AlignCenter)
-        registrid.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px')
+        registrid.setStyleSheet('font-weight:bold;text-decoration:underline;font-size:23px;padding-left: 90px')
         abi_rida.addWidget(registrid)
         abi_rida.addStretch()
 
@@ -101,7 +99,6 @@ class GUI(QWidget):
         rida2 = QHBoxLayout() #Selles reas on registrite ja käskude näitamine
         rida2.addStretch()
         self.label_käsud = QLabel()
-        self.label_käsud.setText(käskude_näide)
         self.label_käsud.setFont(QFont('Arial', font_size))
         self.label_käsud.setAlignment(QtCore.Qt.AlignLeft)
         self.label_käsud.setStyleSheet("font-size:22px")
@@ -111,7 +108,6 @@ class GUI(QWidget):
         self.registrid = QLabel()
         self.registrid.setFont(QFont('Arial', font_size))
         self.registrid.setAlignment(QtCore.Qt.AlignJustify)
-        self.registrid.setText(registrid_näide)
         self.registrid.setStyleSheet("font-size:22px")
         rida2.addWidget(self.registrid)
         rida2.addStretch()
