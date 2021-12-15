@@ -10,8 +10,6 @@ class GUI(QWidget):
         super().__init__()
         vbox = QVBoxLayout()
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
-
-        font_size = 15 #Kogu programmi font size, uute elementide loomisel tuleks seda kasutada
         
         command_rida = QtWidgets.QHBoxLayout() #Selles reas on start, paus ja programmi nimi
         self.start_stop = QPushButton()
@@ -96,16 +94,16 @@ class GUI(QWidget):
         rida2 = QHBoxLayout() #Selles reas on registrite ja käskude näitamine
         rida2.addStretch()
         self.label_käsud = QLabel()
-        self.label_käsud.setFont(QFont('Arial', font_size))
+        self.label_käsud.setFont(QFont('Arial'))
         self.label_käsud.setAlignment(QtCore.Qt.AlignLeft)
-        self.label_käsud.setStyleSheet("font-size:22px")
+        self.label_käsud.setStyleSheet("font-size:22px;background-color:#eb5757;")
         rida2.addWidget(self.label_käsud)
         rida2.addStretch()
 
         self.registrid = QLabel()
-        self.registrid.setFont(QFont('Arial', font_size))
+        self.registrid.setFont(QFont('Arial'))
         self.registrid.setAlignment(QtCore.Qt.AlignJustify)
-        self.registrid.setStyleSheet("font-size:22px")
+        self.registrid.setStyleSheet("font-size:22px;background-color:#eb5757;")
         rida2.addWidget(self.registrid)
         rida2.addStretch()
         
