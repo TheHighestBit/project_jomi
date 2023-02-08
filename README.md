@@ -8,7 +8,7 @@ python main.py path/to/masinkoodi_failinimi.risc16
 
 
 ## RiSC-16 arhitektuur
-[Ülevaade](http://https://user.eng.umd.edu/~blj/risc/ "Ülevaade")
+[Ülevaade](https://user.eng.umd.edu/~blj/risc/ "Ülevaade")
 
 RiSC-16 on 8 16-bitise registriga arvuti arhitektuur, mida kasutatakse ennekõike õpetamiseks. Vaatamata oma lihtsusele on RiSC-16 arvutiga soovi korral võimalik luua vägagi keerulisi programme.
 
